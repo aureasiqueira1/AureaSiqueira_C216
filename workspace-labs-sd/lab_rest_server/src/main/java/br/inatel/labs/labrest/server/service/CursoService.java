@@ -1,16 +1,10 @@
 package br.inatel.labs.labrest.server.service;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
-=======
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
->>>>>>> 1a85b140178642feed8d4f83284d4f4482392045
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import br.inatel.labs.labrest.server.model.Curso;
 
-<<<<<<< HEAD
 // ctrl + shift + 0 => tira os imports
 
 /**
@@ -109,24 +102,4 @@ public class CursoService {
 	
 
 	
-=======
-@Service
-public class CursoService {
-
-	private Map<Long, Curso> mapa = new HashMap<>();
-	
-	@PostConstruct
-	private void inicializarMapa() {
-		mapa.put(1L, new Curso(1L, "REST com Spring", 80));
-	}
-	
-	public List<Curso> pesquisarCurso(){
-		List<Curso> listaDeCursos = mapa.entrySet().stream()
-			.map(e -> e.getValue())
-			.collect(Collectors.toList());
-		
-		return listaDeCursos;
-	}
-	
->>>>>>> 1a85b140178642feed8d4f83284d4f4482392045
 }

@@ -3,7 +3,6 @@ package br.inatel.labs.labrest.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +21,6 @@ import br.inatel.labs.labrest.server.exception.CursoNaoEncontradoException;
 import br.inatel.labs.labrest.server.model.Curso;
 import br.inatel.labs.labrest.server.service.CursoService;
 import java.util.Optional;
-=======
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.inatel.labs.labrest.server.model.Curso;
-import br.inatel.labs.labrest.server.service.CursoService;
->>>>>>> 1a85b140178642feed8d4f83284d4f4482392045
 
 @RestController
 @RequestMapping("/curso")
@@ -45,7 +36,6 @@ public class CursoController {
 		
 		return cursos;
 	}
-<<<<<<< HEAD
 	
 	@GetMapping("/{id}")
 	public Curso buscar(@PathVariable("id") Long cursoId) {
@@ -96,6 +86,4 @@ public class CursoController {
 		return servico.pesquisarCursoPeloFragDescricao(fragDescricao);
 	}
 
-=======
->>>>>>> 1a85b140178642feed8d4f83284d4f4482392045
 }
