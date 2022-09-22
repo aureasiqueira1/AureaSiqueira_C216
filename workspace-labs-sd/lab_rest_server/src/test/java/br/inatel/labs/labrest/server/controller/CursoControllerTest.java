@@ -94,14 +94,12 @@ class CursoControllerTest {
 		novoCurso.setDescricao("Testando REST com Spring WebFlux editado");
 		novoCurso.setCargaHoraria(120);
 		
-		 Curso cursoRespondido = webTestClient.put()
+		  webTestClient.put()
 				.uri("/curso/" + cursoIdValido)
 				 .bodyValue(novoCurso)
 				.exchange()
-				.expectStatus().isAccepted()
-				.expectBody(Curso.class)
-					.returnResult()
-					.getResponseBody();
+				.expectStatus().isAccepted();
+			
 	} 
 	
 	// DELETE
