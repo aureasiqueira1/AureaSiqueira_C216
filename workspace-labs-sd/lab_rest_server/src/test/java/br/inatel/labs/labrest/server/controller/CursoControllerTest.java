@@ -19,120 +19,87 @@ class CursoControllerTest {
 
 	@Autowired
 	private WebTestClient webTestClient;
-	
+
 	@Test
 	void deveListarCursos() {
-	
-	webTestClient.get()
-		.uri("/curso")
-		.exchange()
-		.expectStatus().isOk() // status is Ok?
-		.expectBody().returnResult(); // retornou algum resultado?	
+
+		webTestClient.get().uri("/curso").exchange().expectStatus().isOk() // status is Ok?
+				.expectBody().returnResult(); // retornou algum resultado?
 	}
-	
-	
+
 	@Test
-	void dadoCursoIdValido_quandoGetCursPorId_entaoResponseComCursoValido(){
+	void dadoCursoIdValido_quandoGetCursPorId_entaoResponseComCursoValido() {
 		Long cursoIdValido = 1L;
-		
-		Curso cursoRespondido = webTestClient.get()
-			.uri("/curso/" + cursoIdValido)
-			.exchange()
-			.expectStatus().isOk()
-			.expectBody(Curso.class)
-				.returnResult()
-				.getResponseBody(); 
-				
+
+		Curso cursoRespondido = webTestClient.get().uri("/curso/" + cursoIdValido).exchange().expectStatus().isOk()
+				.expectBody(Curso.class).returnResult().getResponseBody();
+
 		assertNotNull(cursoRespondido);
 		assertEquals(cursoRespondido.getId(), cursoIdValido);
-		
+
 		assertThat(cursoRespondido).isNotNull();
-		assertThat(cursoIdValido).isEqualTo(cursoRespondido.getId());	
-		
+		assertThat(cursoIdValido).isEqualTo(cursoRespondido.getId());
+
 	}
-	
+
 	@Test
 	void dadoCursoIdInvalido_quandoGetCursoPeloId_entaoRespondeComStatusNotFOund() {
 		Long cursoIdInvalido = 99L;
-		
-		webTestClient.get()
-			.uri("/curso/" + cursoIdInvalido)
-			.exchange()
-			.expectStatus().isNotFound();
+
+		webTestClient.get().uri("/curso/" + cursoIdInvalido).exchange().expectStatus().isNotFound();
 	}
-	
+
 	// DESAFIO
-	
-	// POST
+
+	// POST (Precisa do id no @PutMapping)
 	@Test
 	void dadoNovoCurso_quandoPostCurso_entaoResponseComStatusCreatedECursoValido() {
 		Curso novoCurso = new Curso();
 		novoCurso.setDescricao("Testando REST com Spring WebFlux");
 		novoCurso.setCargaHoraria(120);
-		
-		Curso cursoRespondido = webTestClient.post()
-			.uri("/curso")
-			.bodyValue(novoCurso)
-			.exchange()
-			.expectStatus()
-				.isCreated()
-			.expectBody(Curso.class)
-				.returnResult()
-				.getResponseBody();
-		
+
+		Curso cursoRespondido = webTestClient.post().uri("/curso").bodyValue(novoCurso).exchange().expectStatus()
+				.isCreated().expectBody(Curso.class).returnResult().getResponseBody();
+
 		assertThat(cursoRespondido).isNotNull();
 		assertThat(cursoRespondido.getId()).isNotNull();
 	}
-	
-	// PUT
-	@Test
+
+	// PUT (Precisa do id no @PutMapping)
+	/* @Test
 	void dadoCurso_quandoPutCurso_entaoResponseComStatusAceptedECursoValido() {
 		Long cursoIdValido = 1L;
-		
+
 		Curso novoCurso = new Curso();
 		novoCurso.setId(cursoIdValido);
 		novoCurso.setDescricao("Testando REST com Spring WebFlux editado");
 		novoCurso.setCargaHoraria(120);
-		
-		  webTestClient.put()
-				.uri("/curso/" + cursoIdValido)
-				 .bodyValue(novoCurso)
-				.exchange()
-				.expectStatus().isAccepted();
-			
-	} 
-	
+
+		webTestClient.put().uri("/curso/" + cursoIdValido).bodyValue(novoCurso).exchange().expectStatus().isAccepted();
+	} */
+
+	// PUT DO PROFESSOR
+	@Test
+	void dadoCursoExistente_quandoPutCurso_entaoRespondeComStatusAcept() {
+		Curso cursoExistente = new Curso();
+		cursoExistente.setId(1L);
+		cursoExistente.setDescricao("Testando REST com Spring WebFlux editado");
+		cursoExistente.setCargaHoraria(111);
+
+		webTestClient.put().uri("/curso").bodyValue(cursoExistente).exchange().expectStatus().isAccepted().expectBody()
+				.isEmpty();
+
+	}
+
 	// DELETE
 	@Test
-	void dadoCurso_quandoDeleteCurso_entaoResponseComStatusDeletedECursoValido1() {
-		Long cursoIdValido = 1L;
-	
-		Curso cursoRespondido = webTestClient.delete()
-			.uri("/curso/" + cursoIdValido)
-			.exchange()
-			.expectStatus()
-				.isNoContent()
-			.expectBody(Curso.class)
-				.returnResult()
-				.getResponseBody();
-		
-		assertThat(cursoRespondido).isNull();
-	}
-	
-	@Test
-	void dadoCurso_quandoDeleteCurso_entaoResponseComStatusDeletedECursoValido2() {
+	void dadoCursoIdValido_quandoDeleteCursoPeloId_entaoRespondeComStatusNoContentECorpoVazio() {
 		Long cursoIdValido = 2L;
-		
-		Curso cursoRespondido = webTestClient.delete()
-				.uri("/curso/" + cursoIdValido)
-			
-			.exchange()
-			.expectStatus()
-				.isNoContent()
-			.expectBody(Curso.class)
-				.returnResult()
-				.getResponseBody();
-		
-		assertThat(cursoRespondido).isNull();
+
+		webTestClient.delete().uri("/curso/" + cursoIdValido)
+
+				.exchange().expectStatus().isNoContent().expectBody().isEmpty();
 	}
+	
+
 }

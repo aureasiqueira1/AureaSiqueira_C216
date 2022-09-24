@@ -59,7 +59,7 @@ public class CursoController {
 	}
 	
 	// EDITAR CURSO
-	@PutMapping("/{id}")
+	@PutMapping
 	@ResponseStatus(code = HttpStatus.ACCEPTED)
 	public void atualizar(@RequestBody Curso curso){
 		servico.atualizarCurso(curso);
