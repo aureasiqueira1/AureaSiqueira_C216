@@ -19,6 +19,28 @@ public class Fornecedor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+	@NotBlank
+	@Size(max = 200)
+	private String razaoSocial;
+
+	@ManyToMany
+	private List<Produto> listaProduto;
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	
+	// construtores
+	public Fornecedor() {
+	}
+
+	public Fornecedor(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+	
+	// acessores
 	public Long getId() {
 		return id;
 	}
@@ -43,18 +65,6 @@ public class Fornecedor {
 		this.listaProduto = listaProduto;
 	}
 
-	@NotNull
-	@NotBlank
-	@Size(max = 200)
-	private String razaoSocial; 
-	
-	@ManyToMany
-	private List<Produto> listaProduto;
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,6 +77,9 @@ public class Fornecedor {
 		Fornecedor other = (Fornecedor) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Fornecedor [id=" + id + ", razaoSocial=" + razaoSocial + "]";
+	}
 }

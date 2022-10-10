@@ -17,7 +17,31 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class NotaCompra {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotNull
+	private LocalDate dataEmissao;
+
+	@NotNull
+	@ManyToOne
+	private Fornecedor fornecedor;
+
+	@OneToMany(mappedBy = "notaCompra")
+	private List<NotaCompraItem> listaNotaCompraItem;
 	
+	// construtores
+	public NotaCompra() {
+	}
+
+	public NotaCompra(LocalDate dataEmissao, Fornecedor fornecedor) {
+		super();
+		this.dataEmissao = dataEmissao;
+		this.fornecedor = fornecedor;
+	}
+
+	// acessores
 	public Long getId() {
 		return id;
 	}
@@ -50,28 +74,13 @@ public class NotaCompra {
 		this.listaNotaCompraItem = listaNotaCompraItem;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotNull
-	private LocalDate dataEmissao;
-
-	@NotNull
-	@ManyToOne
-	private Fornecedor fornecedor;
-	
-	@OneToMany(mappedBy="notaCompra")
-	private List<NotaCompraItem> listaNotaCompraItem;
-
 	public BigDecimal getCalculoTotalNota() {
-		   BigDecimal total = this.listaNotaCompraItem.stream()
-		      .map( i -> i.getCalculoTotalItem() )
-		      .reduce( BigDecimal.ZERO, BigDecimal::add );
+		BigDecimal total = this.listaNotaCompraItem.stream().map(i -> i.getCalculoTotalItem()).reduce(BigDecimal.ZERO,
+				BigDecimal::add);
 
-		   return total;
-		}
-	
+		return total;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -88,7 +97,9 @@ public class NotaCompra {
 		NotaCompra other = (NotaCompra) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "NotaCompra [id=" + id + ", dataEmissao=" + dataEmissao + "]";
+	}
 }

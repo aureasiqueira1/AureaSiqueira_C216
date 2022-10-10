@@ -14,7 +14,32 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Produto {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
+	@NotNull
+	@NotBlank
+	@Size(max = 100)
+	private String descricao;
+
+	@ManyToMany(mappedBy = "listaProduto")
+	private List<Fornecedor> listaFornecedor;
+
+	// construtores
+	public Produto() {
+	}
+
+	public Produto(String descricao) {
+		this.descricao = descricao;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	
+	// acessores
 	public Long getId() {
 		return id;
 	}
@@ -38,24 +63,6 @@ public class Produto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@NotNull
-	@NotBlank
-	@Size(max = 100)
-	private String descricao;
-
-	@ManyToMany(mappedBy = "listaProduto")
-	private List<Fornecedor> listaFornecedor;
-	
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -69,6 +76,8 @@ public class Produto {
 		return Objects.equals(id, other.id);
 	}
 
-	
-
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", descricao=" + descricao + "]";
+	}
 }
