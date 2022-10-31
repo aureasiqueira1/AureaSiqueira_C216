@@ -41,7 +41,7 @@ public class NotaCompraService {
 	
 	public NotaCompra buscarNotaCompraPeloIdComListaItem(Long id) {
 		NotaCompra nota = em.find(NotaCompra.class, id);
-		nota.getListaNotaCompraItem().size();
+		nota.getListaNotaCompraItem().size(); // Provocando Proxy para buscar a lista de itens
 		return nota;
 	}
 	
